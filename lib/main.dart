@@ -49,11 +49,18 @@ class Day extends StatefulWidget{
 }
 
 class DayState extends State<Day>{
-  int y;
-  int m;
-  int d;
-  int sigCount;
+  int y = 0;
+  int m = 0;
+  int d = 0;
+  int sigCount = 0;
+  bool isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    isLoading = true;
+//    _loadData();
+  }
 
 
   @override
@@ -61,7 +68,7 @@ class DayState extends State<Day>{
     setState(() {
       fetchData();
     });
-    return Column(
+    return (isLoading)? Center(child: CircularProgressIndicator(),): Column(
       children: <Widget>[
         Column(
           children: [
@@ -96,7 +103,7 @@ class DayState extends State<Day>{
     m = dateTime.month;
     d = dateTime.day;
     var response = await Counter.httpClient.get(configData['HOSTNAME']+'/calendar/getDay/$y/$m/$d');
-
+    isLoading = false;
     print("getDay "+response.body);
     sigCount = int.parse(response.body);
   }
