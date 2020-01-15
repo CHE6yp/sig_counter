@@ -60,6 +60,7 @@ class DayState extends State<Day>{
     super.initState();
     isLoading = true;
 //    _loadData();
+//    fetchData();
   }
 
 
@@ -102,8 +103,13 @@ class DayState extends State<Day>{
     y = dateTime.year;
     m = dateTime.month;
     d = dateTime.day;
+//    isLoading = true;
     var response = await Counter.httpClient.get(configData['HOSTNAME']+'/calendar/getDay/$y/$m/$d');
-    isLoading = false;
+
+    setState(() {
+      isLoading = false;
+    });
+
     print("getDay "+response.body);
     sigCount = int.parse(response.body);
   }
